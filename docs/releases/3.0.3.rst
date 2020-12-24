@@ -3,8 +3,8 @@
 
 Channels 3.0.3 fixes a security issue in Channels 3.0.2
 
-CVE-2020-XXXXX: Potential leakage of session data using legacy ``AsgiHandler``
-------------------------------------------------------------------------------
+CVE-2020-XXXXX: Potential leakage of session identifiers using legacy ``AsgiHandler``
+-------------------------------------------------------------------------------------
 
 The legacy ``channels.http.AsgiHandler`` class, used for handling HTTP type
 requests in an ASGI environment prior to Django 3.0, did not correctly separate
@@ -19,9 +19,9 @@ Users of ``ProtocolTypeRouter`` not explicitly specifying the handler for the
 ``'http'`` key, or those explicitly using ``channels.http.AsgiHandler``, likely
 to support Django v2.2, are affected and should update immediately.
 
-Note that both not explicitly specifying the handler for the ``'http'`` key
-and using ``channels.http.AsgiHandler`` are deprecated, and will raise a
-warning, from Channels v3.0
+Note that both an unspecified handler for the ``'http'`` key and using
+``channels.http.AsgiHandler`` are deprecated, and will raise a warning, from
+Channels v3.0.0
 
 This issue affects only the legacy channels provided class, and not Django's
 similar ``ASGIHandler``, available from Django 3.0. It is recommended to update
@@ -48,8 +48,6 @@ A simplified ``asgi.py`` script will look like this:
     application = ProtocolTypeRouter({
         # Explicitly set 'http' key using Django's ASGI application.
         "http": django_asgi_app,
-
-        # Other protocols here.
         ),
     })
 
